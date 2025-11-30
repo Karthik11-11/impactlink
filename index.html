@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImpactLink - Where Ambition Meets Impact</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        /* --- Theme Colors & Gradients --- */
+        :root {
+            --bg-primary: #f0fdf4;
+            --text-primary: #1f2937;
+        }
+
+        /* Vibrant Gradients */
+        .gradient-hero { background: linear-gradient(135deg, #ecfdf5 0%, #eff6ff 100%); }
+        .gradient-accent { background: linear-gradient(135deg, #f97316 0%, #fb923c 100%); }
+        .gradient-blue { background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%); }
+        .gradient-green { background: linear-gradient(135deg, #10b981 0%, #34d399 100%); }
+        .gradient-purple { background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%); }
+        .gradient-pink { background: linear-gradient(135deg, #ec4899 0%, #f472b6 100%); }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #059669 0%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Animated Background Blobs */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.5;
+            animation: float 8s ease-in-out infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .blob-1 { width: 400px; height: 400px; background: #86efac; top: -100px; right: -100px; animation-delay: 0s; }
+        .blob-2 { width: 300px; height: 300px; background: #93c5fd; bottom: -50px; left: -50px; animation-delay: 2s; }
+        .blob-3 { width: 250px; height: 250px; background: #fca5a5; top: 50%; left: 30%; animation-delay: 4s; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        /* Animations */
+        .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        
+        .page-transition { animation: fadeInPage 0.5s ease-out forwards; }
+        @keyframes fadeInPage { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Cards & UI */
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .card-hover:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15); }
+
+        .glow-btn { transition: all 0.3s ease; }
+        .glow-btn:hover { box-shadow: 0 0 20px rgba(249, 115, 22, 0.4); }
+
+        /* Form Styling */
+        .form-card {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+        .input-field { transition: all 0.3s ease; }
+        .input-field:focus { border-color: #10b981; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1); }
+        
+        .checkbox-wrapper:checked + div {
+            background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+            color: white; border-color: transparent;
+        }
+
+        /* Accordion */
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, opacity 0.3s ease-out; opacity: 0; }
+        .accordion-content.active { max-height: 500px; opacity: 1; }
+
+        /* Page Visibility Control */
+        .view-section { display: none; }
+        .view-section.active { display: block; }
+
+        /* Infinite Loop Marquee */
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+        }
+        .marquee-content {
+            display: inline-flex;
+            animation: scroll 30s linear infinite;
+        }
+        .marquee-content:hover { animation-play-state: paused; }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Hide Scrollbar */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-emerald-50 text-gray-800 overflow-x-hidden">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 h-1 bg-gradient-to-r from-orange-400 via-green-400 to-blue-500 z-[100]" id="progressBar" style="width: 0%"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4 bg-white/80 backdrop-blur-md shadow-sm">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="#" onclick="navigateTo('home')" class="flex items-center space-x-2 cursor-pointer">
+                <div class="w-10 h-10 gradient-green rounded-lg flex items-center justify-center shadow-lg">
+                    <i class="fas fa-leaf text-white text-xl"></i>
+                </div>
+                <span class="text-2xl font-bold gradient-text">ImpactLink</span>
+            </a>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#" onclick="navigateTo('home', 'about')" class="nav-link font-medium text-gray-600 hover:text-orange-500 transition-colors">About</a>
+                <a href="#" onclick="navigateTo('home', 'features')" class="nav-link font-medium text-gray-600 hover:text-orange-500 transition-colors">Features</a>
+                <a href="#" onclick="navigateTo('stories')" class="nav-link font-medium text-gray-600 hover:text-orange-500 transition-colors">Stories</a>
+                <a href="#" onclick="navigateTo('resources')" class="nav-link font-medium text-gray-600 hover:text-orange-500 transition-colors">Resources</a>
+                <a href="#" onclick="navigateTo('faq')" class="nav-link font-medium text-gray-600 hover:text-orange-500 transition-colors">FAQ</a>
+                
+                <!-- Dropdown -->
+                <div class="relative group">
+                    <button class="glow-btn gradient-accent text-white px-6 py-2 rounded-full font-semibold hover:opacity-90 transition-all shadow-lg flex items-center">
+                        Get Started <i class="fas fa-chevron-down ml-2 text-xs"></i>
+                    </button>
+                    <div class="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 border border-gray-100 overflow-hidden z-50">
+                        <a href="#" onclick="navigateTo('student-signup')" class="block px-4 py-3 hover:bg-orange-50 transition-colors flex items-center space-x-2 text-gray-700">
+                            <i class="fas fa-graduation-cap text-orange-500 w-6"></i>
+                            <span>Student Sign Up</span>
+                        </a>
+                        <a href="#" onclick="navigateTo('ngo-signup')" class="block px-4 py-3 hover:bg-orange-50 transition-colors flex items-center space-x-2 text-gray-700">
+                            <i class="fas fa-building text-orange-500 w-6"></i>
+                            <span>NGO Registration</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="menuBtn" class="md:hidden text-2xl text-gray-700">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="fixed top-0 right-0 h-screen w-72 bg-white shadow-2xl p-6 md:hidden z-50 transform translate-x-full transition-transform duration-300">
+            <button id="closeMenu" class="absolute top-4 right-4 text-2xl text-gray-500">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="flex flex-col space-y-6 mt-16">
+                <a href="#" onclick="navigateTo('home', 'about')" class="text-lg font-medium text-gray-700">About</a>
+                <a href="#" onclick="navigateTo('home', 'features')" class="text-lg font-medium text-gray-700">Features</a>
+                <a href="#" onclick="navigateTo('stories')" class="text-lg font-medium text-gray-700">Stories</a>
+                <a href="#" onclick="navigateTo('resources')" class="text-lg font-medium text-gray-700">Resources</a>
+                <a href="#" onclick="navigateTo('faq')" class="text-lg font-medium text-gray-700">FAQ</a>
+                <div class="h-px bg-gray-200 my-2"></div>
+                <a href="#" onclick="navigateTo('student-signup')" class="glow-btn gradient-accent text-white px-6 py-3 rounded-full font-semibold text-center shadow-md">
+                    Student Sign Up
+                </a>
+                <a href="#" onclick="navigateTo('ngo-signup')" class="border-2 border-orange-500 text-orange-500 px-6 py-3 rounded-full font-semibold text-center hover:bg-orange-50">
+                    NGO Registration
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== OPPORTUNITIES VIEW ==================== -->
+    <div id="view-opportunities" class="view-section page-transition">
+        <section class="min-h-screen pt-32 pb-20 bg-gray-50 relative">
+            <div class="blob blob-1" style="right: auto; left: -100px;"></div>
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <div class="inline-block px-4 py-2 bg-blue-100 rounded-full mb-4">
+                        <span class="text-blue-600 font-semibold">Opportunity Finder</span>
+                    </div>
+                    <h1 class="text-4xl font-bold mb-4">Find Your Perfect <span class="text-blue-600">Match</span></h1>
+                    <p class="text-gray-600">Browse hundreds of live opportunities from verified NGOs.</p>
+                </div>
+
+                <div class="flex flex-col lg:flex-row gap-8">
+                    <!-- Sidebar Filters -->
+                    <div class="w-full lg:w-1/4">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 sticky top-28">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="font-bold text-lg">Filters</h3>
+                                <button class="text-sm text-gray-500 hover:text-orange-500">Reset</button>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <h4 class="font-semibold text-sm text-gray-700 mb-3 uppercase tracking-wider">Cause</h4>
+                                <div class="space-y-2">
+                                    <label class="flex items-center space-x-2 cursor-pointer"><input type="checkbox" class="accent-blue-500 rounded"> <span class="text-gray-600 text-sm">Environment</span></label>
+                                    <label class="flex items-center space-x-2 cursor-pointer"><input type="checkbox" class="accent-blue-500 rounded"> <span class="text-gray-600 text-sm">Education</span></label>
+                                    <label class="flex items-center space-x-2 cursor-pointer"><input type="checkbox" class="accent-blue-500 rounded"> <span class="text-gray-600 text-sm">Healthcare</span></label>
+                                </div>
+                            </div>
+                            <div class="mb-6">
+                                <h4 class="font-semibold text-sm text-gray-700 mb-3 uppercase tracking-wider">Location</h4>
+                                <div class="space-y-2">
+                                    <label class="flex items-center space-x-2 cursor-pointer"><input type="checkbox" class="accent-blue-500 rounded" checked> <span class="text-gray-600 text-sm">Remote</span></label>
+                                    <label class="flex items-center space-x-2 cursor-pointer"><input type="checkbox" class="accent-blue-500 rounded"> <span class="text-gray-600 text-sm">On-Site</span></label>
+                                </div>
+                            </div>
+                            <button class="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors">Apply Filters</button>
+                        </div>
+                    </div>
+
+                    <!-- Listings Grid -->
+                    <div class="w-full lg:w-3/4">
+                        <div class="space-y-4">
+                            <!-- Card 1 -->
+                            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all flex flex-col md:flex-row items-start gap-4">
+                                <div class="w-16 h-16 rounded-xl bg-green-100 flex items-center justify-center flex-shrink-0 text-2xl">🌿</div>
+                                <div class="flex-1">
+                                    <h3 class="font-bold text-xl text-gray-900 mb-1">Social Media Content Creator</h3>
+                                    <p class="text-gray-500 text-sm mb-3">GreenEarth Initiative • Posted 2 days ago</p>
+                                    <p class="text-gray-600 text-sm mb-4">Help us design Instagram posts for our upcoming campaign.</p>
+                                </div>
+                                <button onclick="navigateTo('student-signup')" class="bg-gray-900 text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-800 transition-colors">Apply Now</button>
+                            </div>
+                            <!-- Card 2 -->
+                            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all flex flex-col md:flex-row items-start gap-4">
+                                <div class="w-16 h-16 rounded-xl bg-orange-100 flex items-center justify-center flex-shrink-0 text-2xl">📚</div>
+                                <div class="flex-1">
+                                    <h3 class="font-bold text-xl text-gray-900 mb-1">Math Tutor</h3>
+                                    <p class="text-gray-500 text-sm mb-3">BrightFuture Foundation • New York</p>
+                                    <p class="text-gray-600 text-sm mb-4">Help underprivileged children master basic math concepts.</p>
+                                </div>
+                                <button onclick="navigateTo('student-signup')" class="bg-gray-900 text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-800 transition-colors">Apply Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ==================== HOME PAGE VIEW ==================== -->
+    <div id="view-home" class="view-section active page-transition">
+        <!-- Hero Section -->
+        <section class="gradient-hero min-h-screen relative overflow-hidden flex items-center pt-24">
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+            <div class="blob blob-3"></div>
+
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="text-center md:text-left">
+                        <div class="inline-block px-4 py-2 bg-white/60 rounded-full mb-6 backdrop-blur-sm border border-white shadow-sm">
+                            <span class="text-orange-600 font-semibold">🚀 Connecting Passion with Purpose</span>
+                        </div>
+                        <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6 text-gray-900">
+                            Where <span class="bg-gradient-to-r from-orange-500 via-pink-500 to-purple-500 bg-clip-text text-transparent">Ambition</span>
+                            <br>Meets <span class="bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent">Impact</span>
+                        </h1>
+                        <p class="text-gray-600 text-lg mb-8 max-w-lg mx-auto md:mx-0">
+                            ImpactLink is a simple, smart platform bridging the gap between students seeking experience and NGOs looking for passionate contributors.
+                        </p>
+                        
+                        <!-- Search Mockup -->
+                        <div class="bg-white p-2 rounded-full shadow-lg max-w-md mb-8 flex border border-gray-100 mx-auto md:mx-0">
+                            <input type="text" placeholder="Search opportunities (e.g. 'Environment')" class="flex-1 px-6 py-3 rounded-full outline-none text-gray-600">
+                            <button class="w-12 h-12 gradient-green rounded-full flex items-center justify-center text-white hover:opacity-90 transition-opacity">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                            <button onclick="navigateTo('student-signup')" class="glow-btn gradient-accent text-white px-8 py-4 rounded-full font-semibold text-lg flex items-center justify-center space-x-2 shadow-xl hover:-translate-y-1 transition-transform">
+                                <span>I'm a Student</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                            <button onclick="navigateTo('ngo-signup')" class="px-8 py-4 rounded-full font-semibold text-lg bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 hover:shadow-md transition-all flex items-center justify-center space-x-2">
+                                <span>I'm an NGO</span>
+                                <i class="fas fa-building"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Stats Preview -->
+                        <div class="mt-10">
+                            <div class="bg-white/40 backdrop-blur-md border border-white/60 p-5 rounded-2xl shadow-lg inline-block">
+                                <div class="flex items-center gap-2 mb-3 justify-center md:justify-start">
+                                    <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                                    <p class="text-gray-600 text-xs font-bold uppercase tracking-widest">Our 2025 Mission Targets</p>
+                                </div>
+                                <div class="flex gap-8 md:gap-12 divide-x divide-gray-300/50">
+                                    <div class="text-center px-2">
+                                        <div class="text-2xl md:text-3xl font-bold text-gray-800">500+</div>
+                                        <div class="text-orange-600 text-xs font-bold mt-1"><i class="fas fa-building mr-1"></i>NGOs</div>
+                                    </div>
+                                    <div class="text-center px-2 pl-6">
+                                        <div class="text-2xl md:text-3xl font-bold text-gray-800">10K+</div>
+                                        <div class="text-green-600 text-xs font-bold mt-1"><i class="fas fa-user-graduate mr-1"></i>Students</div>
+                                    </div>
+                                    <div class="text-center px-2 pl-6">
+                                        <div class="text-2xl md:text-3xl font-bold text-gray-800">5K+</div>
+                                        <div class="text-purple-600 text-xs font-bold mt-1"><i class="fas fa-project-diagram mr-1"></i>Projects</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hero Image -->
+                    <div class="relative hidden md:block fade-in">
+                        <div class="relative z-10">
+                            <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=600&h=500&fit=crop" 
+                                 alt="Students collaborating" 
+                                 class="rounded-2xl shadow-2xl border-4 border-white">
+                            
+                            <!-- Floating Cards -->
+                            <div class="absolute -left-10 top-10 bg-white/90 backdrop-blur-lg p-4 rounded-xl shadow-xl animate-bounce" style="animation-duration: 3s;">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 gradient-green rounded-full flex items-center justify-center">
+                                        <i class="fas fa-check text-white"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-gray-800">Verified NGOs</div>
+                                        <div class="text-sm text-gray-500">100% Trusted</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="absolute -right-5 bottom-20 bg-white/90 backdrop-blur-lg p-4 rounded-xl shadow-xl animate-bounce" style="animation-duration: 4s;">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 gradient-accent rounded-full flex items-center justify-center">
+                                        <i class="fas fa-heart text-white"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-gray-800">Zero Cost</div>
+                                        <div class="text-sm text-gray-500">Always Free</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Infinite Marquee Loop (Partners) -->
+        <section class="py-6 bg-white border-b border-gray-100 overflow-hidden">
+            <div class="container mx-auto px-6 mb-4 text-center">
+                <p class="text-sm font-semibold text-gray-400 uppercase tracking-widest">Trusted by leading organizations</p>
+            </div>
+            <div class="marquee-container relative">
+                <!-- Gradient Overlays for smooth fade -->
+                <div class="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-white to-transparent z-10"></div>
+                <div class="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-white to-transparent z-10"></div>
+                
+                <div class="marquee-content flex space-x-12 items-center">
+                    <span class="text-2xl font-bold text-gray-300 flex items-center"><i class="fas fa-dove mr-2"></i> PeaceCorps</span>
+                    <span class="text-2xl font-bold text-gray-300 flex items-center"><i class="fas fa-tree mr-2"></i> GreenLife</span>
+                    <span class="text-2xl font-bold text-gray-300 flex items-center"><i class="fas fa-hand-holding-heart mr-2"></i> CareGlobal</span>
+                    <span class="text-2xl font-bold text-gray-300 flex items-center"><i class="fas fa-graduation-cap mr-2"></i> EduFirst</span>
+                    <span class="text-2xl font-bold text-gray-300 flex items-center"><i class="fas fa-paw mr-2"></i> Pawsitive</span>
+                    <span class="text-2xl font-bold text-gray-300 flex items-center"><i class="fas fa-globe-americas mr-2"></i> EarthWatch</span>
+                    <span class="text-2xl font-bold text-gray-300 flex items-center"><i class="fas fa-heartbeat mr-2"></i> HealthPlus</span>
+                    <!-- Repeat -->
+                    <span class="text-2xl font-bold text-gray-300 flex items-center"><i class="fas fa-dove mr-2"></i> PeaceCorps</span>
+                    <span class="text-2xl font-bold text-gray-300 flex items-center"><i class="fas fa-tree mr-2"></i> GreenLife</span>
+                    <span class="text-2xl font-bold text-gray-300 flex items-center"><i class="fas fa-hand-holding-heart mr-2"></i> CareGlobal</span>
+                    <span class="text-2xl font-bold text-gray-300 flex items-center"><i class="fas fa-graduation-cap mr-2"></i> EduFirst</span>
+                    <span class="text-2xl font-bold text-gray-300 flex items-center"><i class="fas fa-paw mr-2"></i> Pawsitive</span>
+                    <span class="text-2xl font-bold text-gray-300 flex items-center"><i class="fas fa-globe-americas mr-2"></i> EarthWatch</span>
+                    <span class="text-2xl font-bold text-gray-300 flex items-center"><i class="fas fa-heartbeat mr-2"></i> HealthPlus</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Journey Map: Your Smoother Path -->
+        <section class="py-20 bg-white relative overflow-hidden">
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="text-center mb-16">
+                    <div class="inline-block px-4 py-2 bg-blue-100 rounded-full mb-4">
+                        <span class="text-blue-600 font-semibold">How It Works</span>
+                    </div>
+                    <h2 class="text-4xl font-bold mb-4">Your Smoother Path to <span class="text-blue-600">Doing Good</span></h2>
+                    <p class="text-gray-500 max-w-2xl mx-auto">We've simplified the process so you can focus on what matters - making an impact.</p>
+                </div>
+                
+                <div class="relative">
+                    <!-- Connecting Line (Desktop) -->
+                    <div class="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-gray-100 -translate-y-1/2 z-0"></div>
+                    <div class="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 -translate-y-1/2 z-0" style="clip-path: polygon(0 0, 75% 0, 75% 100%, 0% 100%);"></div>
+
+                    <div class="grid md:grid-cols-4 gap-8 relative z-10">
+                        <!-- Step 1 -->
+                        <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 text-center transform hover:-translate-y-2 transition-transform duration-300">
+                            <div class="w-16 h-16 mx-auto bg-green-100 rounded-full flex items-center justify-center mb-4 text-2xl border-4 border-white shadow-sm relative">
+                                <span>🔍</span>
+                                <div class="absolute -top-2 -right-2 w-6 h-6 bg-green-500 text-white rounded-full text-xs flex items-center justify-center font-bold">1</div>
+                            </div>
+                            <h3 class="font-bold text-xl mb-2">Discover</h3>
+                            <p class="text-gray-500 text-sm">Browse curated opportunities that match your skills and passions.</p>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 text-center transform hover:-translate-y-2 transition-transform duration-300">
+                            <div class="w-16 h-16 mx-auto bg-blue-100 rounded-full flex items-center justify-center mb-4 text-2xl border-4 border-white shadow-sm relative">
+                                <span>🤝</span>
+                                <div class="absolute -top-2 -right-2 w-6 h-6 bg-blue-500 text-white rounded-full text-xs flex items-center justify-center font-bold">2</div>
+                            </div>
+                            <h3 class="font-bold text-xl mb-2">Connect</h3>
+                            <p class="text-gray-500 text-sm">Apply with one click and chat directly with verified NGOs.</p>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 text-center transform hover:-translate-y-2 transition-transform duration-300">
+                            <div class="w-16 h-16 mx-auto bg-purple-100 rounded-full flex items-center justify-center mb-4 text-2xl border-4 border-white shadow-sm relative">
+                                <span>🚀</span>
+                                <div class="absolute -top-2 -right-2 w-6 h-6 bg-purple-500 text-white rounded-full text-xs flex items-center justify-center font-bold">3</div>
+                            </div>
+                            <h3 class="font-bold text-xl mb-2">Collaborate</h3>
+                            <p class="text-gray-500 text-sm">Work on real projects, track your hours, and gain experience.</p>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 text-center transform hover:-translate-y-2 transition-transform duration-300">
+                            <div class="w-16 h-16 mx-auto bg-orange-100 rounded-full flex items-center justify-center mb-4 text-2xl border-4 border-white shadow-sm relative">
+                                <span>🏆</span>
+                                <div class="absolute -top-2 -right-2 w-6 h-6 bg-orange-500 text-white rounded-full text-xs flex items-center justify-center font-bold">4</div>
+                            </div>
+                            <h3 class="font-bold text-xl mb-2">Impact</h3>
+                            <p class="text-gray-500 text-sm">Earn certificates, badges, and see the difference you've made.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Opportunity Extractor: Dial In -->
+        <section class="py-20 bg-slate-900 relative overflow-hidden">
+            <!-- Background Pattern -->
+            <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:16px_16px]"></div>
+            
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="flex flex-col md:flex-row items-center gap-16">
+                    <div class="md:w-1/2 text-white">
+                        <div class="inline-block px-4 py-2 bg-emerald-500/20 border border-emerald-500/50 rounded-full mb-6">
+                            <span class="text-emerald-400 font-bold tracking-wide text-sm uppercase">Smart Matching</span>
+                        </div>
+                        <h2 class="text-4xl md:text-5xl font-bold leading-tight mb-6">
+                            Dial In The <br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Perfect Brief</span>
+                        </h2>
+                        <p class="text-slate-300 text-lg mb-8 leading-relaxed">
+                            Don't waste time scrolling. Use our advanced opportunity extractor to filter by cause, location, duration, and specific skills to find the exact match for your ambition.
+                        </p>
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-center space-x-3">
+                                <i class="fas fa-check-circle text-emerald-400 text-xl"></i>
+                                <span class="text-slate-200">Filter by 15+ specific causes</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <i class="fas fa-check-circle text-emerald-400 text-xl"></i>
+                                <span class="text-slate-200">Remote, Hybrid, or On-site toggles</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <i class="fas fa-check-circle text-emerald-400 text-xl"></i>
+                                <span class="text-slate-200">Duration-based matching</span>
+                            </li>
+                        </ul>
+                        <button onclick="navigateTo('opportunities')" class="glow-btn bg-emerald-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-emerald-600 transition-all shadow-lg shadow-emerald-500/30 flex items-center">
+                            Launch Opportunity Finder <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+
+                    <!-- Visual Mockup -->
+                    <div class="md:w-1/2 relative">
+                        <div class="absolute -inset-4 bg-emerald-500/20 rounded-full blur-3xl"></div>
+                        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-2xl relative z-10 transform rotate-2 hover:rotate-0 transition-all duration-500">
+                            <!-- Header Mockup -->
+                            <div class="flex items-center justify-between mb-6 border-b border-slate-700 pb-4">
+                                <div class="flex space-x-2">
+                                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                </div>
+                                <div class="text-slate-400 text-xs">Filter Panel</div>
+                            </div>
+                            <!-- Tags Mockup -->
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="text-slate-400 text-xs uppercase font-bold mb-2">Cause</div>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="bg-emerald-500 text-white px-3 py-1 rounded-lg text-sm">Environment</span>
+                                        <span class="bg-slate-700 text-slate-300 px-3 py-1 rounded-lg text-sm">Education</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="text-slate-400 text-xs uppercase font-bold mb-2">Location</div>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="bg-slate-700 text-slate-300 px-3 py-1 rounded-lg text-sm">On-Site</span>
+                                        <span class="bg-blue-500 text-white px-3 py-1 rounded-lg text-sm">Remote Only</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="text-slate-400 text-xs uppercase font-bold mb-2">Hours/Week</div>
+                                    <div class="w-full bg-slate-700 h-2 rounded-full overflow-hidden">
+                                        <div class="bg-orange-400 h-full w-1/3"></div>
+                                    </div>
+                                    <div class="flex justify-between text-xs text-slate-400 mt-1">
+                                        <span>1h</span>
+                                        <span>5h</span>
+                                        <span>20h+</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Result Count -->
+                            <div class="mt-6 bg-slate-900/50 p-4 rounded-xl border border-slate-700 flex justify-between items-center">
+                                <span class="text-slate-300 text-sm">Matches Found:</span>
+                                <span class="text-emerald-400 font-bold text-xl">124</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Community Updates -->
+        <section class="pt-10 pb-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 fade-in">
+                    <h2 class="text-3xl font-bold text-gray-900">Latest <span class="text-green-500">Impact Updates</span></h2>
+                    <p class="text-gray-500 mt-2">See what's happening in our community right now.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-gray-50 rounded-xl shadow-sm p-6 border border-gray-100 card-hover">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 rounded-full bg-gray-200 mr-3 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop" alt="User">
+                            </div>
+                            <div>
+                                <p class="font-bold text-gray-800">David K.</p>
+                                <p class="text-xs text-gray-500">Joined a project</p>
+                            </div>
+                            <span class="ml-auto text-xs bg-green-100 text-green-600 px-2 py-1 rounded">2m ago</span>
+                        </div>
+                        <p class="text-gray-600 text-sm">"Excited to start volunteering with CleanOcean Initiative!"</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-xl shadow-sm p-6 border border-gray-100 card-hover">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-building text-orange-500"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-gray-800">EduCare NGO</p>
+                                <p class="text-xs text-gray-500">Posted a new role</p>
+                            </div>
+                            <span class="ml-auto text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded">1h ago</span>
+                        </div>
+                        <p class="text-gray-600 text-sm">"We are looking for 5 passionate tutors. Apply now!"</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-xl shadow-sm p-6 border border-gray-100 card-hover">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 rounded-full bg-gray-200 mr-3 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop" alt="User">
+                            </div>
+                            <div>
+                                <p class="font-bold text-gray-800">Maria S.</p>
+                                <p class="text-xs text-gray-500">Completed a project</p>
+                            </div>
+                            <span class="ml-auto text-xs bg-purple-100 text-purple-600 px-2 py-1 rounded">3h ago</span>
+                        </div>
+                        <p class="text-gray-600 text-sm">"Just received my certificate for 50 hours of community service!"</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20 bg-gray-50 relative">
+            <div class="container mx-auto px-6">
+                <div class="grid md:grid-cols-2 gap-16 items-center">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=600&fit=crop" 
+                                alt="Volunteers helping" 
+                                class="rounded-2xl shadow-2xl relative z-10">
+                        <div class="absolute -bottom-6 -right-6 w-48 h-48 bg-orange-100 rounded-2xl -z-0"></div>
+                        <div class="absolute -top-6 -left-6 w-32 h-32 bg-blue-100 rounded-full -z-0"></div>
+                    </div>
+
+                    <div>
+                        <div class="inline-block px-4 py-2 bg-orange-100 rounded-full mb-4">
+                            <span class="text-orange-600 font-semibold">About ImpactLink</span>
+                        </div>
+                        <h2 class="text-4xl font-bold mb-6 text-gray-900">
+                            Creating a Seamless <span class="text-orange-500">Zero-Cost</span> Ecosystem
+                        </h2>
+                        <p class="text-gray-600 text-lg mb-6">
+                            ImpactLink bridges the gap between students seeking real-world experience and NGOs looking for passionate contributors.
+                        </p>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="flex items-start space-x-3">
+                                <div class="w-12 h-12 gradient-green rounded-lg flex items-center justify-center flex-shrink-0 shadow-md">
+                                    <i class="fas fa-handshake text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Connections</h4>
+                                    <p class="text-gray-500 text-sm">Right people, right time</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <div class="w-12 h-12 gradient-blue rounded-lg flex items-center justify-center flex-shrink-0 shadow-md">
+                                    <i class="fas fa-shield-alt text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Verified</h4>
+                                    <p class="text-gray-500 text-sm">100% trusted NGOs</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16 fade-in">
+                    <div class="inline-block px-4 py-2 bg-green-100 rounded-full mb-4">
+                        <span class="text-green-600 font-semibold">Why Choose ImpactLink?</span>
+                    </div>
+                    <h2 class="text-4xl font-bold mb-4 text-gray-900">Features for <span class="text-green-600">Everyone</span></h2>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="feature-card card-hover bg-gray-50 p-8 rounded-2xl border border-gray-100">
+                        <div class="w-16 h-16 gradient-accent rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-orange-200">
+                            <i class="fas fa-brain text-2xl text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-800">Smart Matching</h3>
+                        <p class="text-gray-500">AI-powered algorithm matches students with opportunities based on skills and interests.</p>
+                    </div>
+
+                    <div class="feature-card card-hover bg-gray-50 p-8 rounded-2xl border border-gray-100">
+                        <div class="w-16 h-16 gradient-blue rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-200">
+                            <i class="fas fa-certificate text-2xl text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-800">Verified NGOs</h3>
+                        <p class="text-gray-500">All NGOs are thoroughly verified to ensure safe and legitimate opportunities.</p>
+                    </div>
+
+                    <div class="feature-card card-hover bg-gray-50 p-8 rounded-2xl border border-gray-100">
+                        <div class="w-16 h-16 gradient-green rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-green-200">
+                            <i class="fas fa-dollar-sign text-2xl text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-800">Completely Free</h3>
+                        <p class="text-gray-500">Zero cost for both students and NGOs. Our mission is impact, not profit.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="py-20 gradient-hero relative overflow-hidden">
+            <div class="container mx-auto px-6 relative z-10">
+                <h3 class="text-center text-2xl md:text-3xl font-bold mb-12 text-gray-800 fade-in">We are aiming for</h3>
+                <div class="grid md:grid-cols-4 gap-8 text-center">
+                    <div class="fade-in">
+                        <div class="counter text-orange-500 text-5xl font-bold" data-target="500">0</div>
+                        <div class="text-xl text-gray-600">Verified NGOs</div>
+                    </div>
+                    <div class="fade-in">
+                        <div class="counter text-green-500 text-5xl font-bold" data-target="10000">0</div>
+                        <div class="text-xl text-gray-600">Active Students</div>
+                    </div>
+                    <div class="fade-in">
+                        <div class="counter text-blue-500 text-5xl font-bold" data-target="5000">0</div>
+                        <div class="text-xl text-gray-600">Projects Completed</div>
+                    </div>
+                    <div class="fade-in">
+                        <div class="counter text-purple-500 text-5xl font-bold" data-target="50000">0</div>
+                        <div class="text-xl text-gray-600">Hours Contributed</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Impact Calculator -->
+        <section class="py-20 bg-gradient-to-br from-emerald-900 to-teal-900 text-white relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+            <div class="container mx-auto px-6 relative z-10 text-center">
+                <h2 class="text-3xl font-bold mb-8">Calculate Your Potential Impact</h2>
+                <div class="max-w-4xl mx-auto bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20">
+                    <div class="grid md:grid-cols-3 gap-8 items-center">
+                        <div class="text-left">
+                            <label class="block text-emerald-200 text-sm font-bold mb-2">Hours to Contribute</label>
+                            <input type="range" min="1" max="50" value="5" class="w-full accent-emerald-400 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer" id="impactRange" oninput="updateImpactCalc(this.value)">
+                            <div class="text-right mt-2 font-mono text-2xl font-bold"><span id="impactHours">5</span> hrs/week</div>
+                        </div>
+                        <div class="md:col-span-2 flex justify-around items-center text-center">
+                            <div>
+                                <div class="text-4xl font-bold text-emerald-400 mb-1" id="impactLives">25</div>
+                                <div class="text-sm text-emerald-100">Lives Touched<br>(Est. per month)</div>
+                            </div>
+                            <div class="h-12 w-px bg-white/20"></div>
+                            <div>
+                                <div class="text-4xl font-bold text-orange-400 mb-1" id="impactValue">$150</div>
+                                <div class="text-sm text-emerald-100">Value Created<br>(Social Return)</div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-6 text-xs text-emerald-200/60">*Estimates based on average social return on investment (SROI) metrics.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="grid md:grid-cols-2 gap-16">
+                    <div class="fade-in">
+                        <div class="inline-block px-4 py-2 bg-orange-100 rounded-full mb-4">
+                            <span class="text-orange-600 font-semibold">Get In Touch</span>
+                        </div>
+                        <h2 class="text-4xl font-bold mb-6 text-gray-900">Let's Start a <span class="text-orange-500">Conversation</span></h2>
+                        <p class="text-gray-600 mb-8">
+                            Have questions? Want to partner with us? We'd love to hear from you.
+                        </p>
+                         <div class="mt-8 p-6 bg-gray-50 rounded-2xl shadow-sm border border-gray-100">
+                            <h4 class="font-bold mb-2">Need Quick Answers?</h4>
+                            <p class="text-sm text-gray-500 mb-4">Check our frequently asked questions for immediate help.</p>
+                            <button onclick="navigateTo('faq')" class="text-blue-600 font-semibold hover:underline">Visit FAQ Page →</button>
+                        </div>
+                    </div>
+
+                    <div class="fade-in">
+                        <form class="bg-white p-8 rounded-3xl shadow-lg border border-gray-100">
+                            <div class="mb-6">
+                                <label class="block text-sm font-semibold mb-2 text-gray-700">Email</label>
+                                <input type="email" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-orange-400" placeholder="john@example.com">
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-sm font-semibold mb-2 text-gray-700">Message</label>
+                                <textarea rows="4" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-orange-400 resize-none" placeholder="Your message..."></textarea>
+                            </div>
+                            <button type="button" onclick="alert('Message Sent!')" class="w-full glow-btn gradient-accent text-white py-4 rounded-xl font-semibold text-lg shadow-lg">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ==================== TESTIMONIALS VIEW ==================== -->
+    <div id="view-stories" class="view-section page-transition">
+        <section class="min-h-screen pt-32 pb-20 relative bg-gray-50 overflow-hidden">
+            <div class="blob blob-3" style="top: 10%; left: 10%; background: #ddd6fe;"></div>
+            <div class="blob blob-2" style="bottom: 10%; right: 10%; background: #fbcfe8;"></div>
+            
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-10">
+                    <div class="inline-block px-4 py-2 bg-purple-100 rounded-full mb-4">
+                        <span class="text-purple-600 font-semibold">Community Stories</span>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4">Impact in <span class="text-purple-600">Action</span></h1>
+                    <p class="text-gray-600 text-lg max-w-2xl mx-auto">Swipe through impact moments from our community.</p>
+                </div>
+
+                <!-- Sliding Canvas (Carousel) -->
+                <div class="relative mb-16 group">
+                    <!-- Controls -->
+                    <button onclick="slideStories('left')" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/80 backdrop-blur rounded-full shadow-lg flex items-center justify-center text-purple-600 hover:bg-white hover:scale-110 transition-all hidden md:flex border border-gray-100">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button onclick="slideStories('right')" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/80 backdrop-blur rounded-full shadow-lg flex items-center justify-center text-purple-600 hover:bg-white hover:scale-110 transition-all hidden md:flex border border-gray-100">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    
+                    <!-- Scroll Container -->
+                    <div id="storiesSlider" class="flex overflow-x-auto gap-8 py-10 px-4 snap-x snap-mandatory no-scrollbar scroll-smooth">
+                        
+                        <!-- Card 1 -->
+                        <div class="min-w-[320px] md:min-w-[450px] snap-center bg-white p-8 rounded-3xl shadow-lg border border-gray-100 relative transform hover:-translate-y-2 transition-transform duration-300">
+                            <div class="absolute -top-4 -right-4 w-20 h-20 bg-purple-500 rounded-full opacity-10"></div>
+                            <div class="flex items-center space-x-4 mb-6">
+                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" class="w-16 h-16 rounded-full object-cover border-2 border-purple-100" alt="User">
+                                <div>
+                                    <h4 class="font-bold text-xl text-gray-900">Sarah Jenkins</h4>
+                                    <p class="text-purple-600 font-medium">Clean Water Project</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-lg italic leading-relaxed">"I wanted to help with environmental conservation but didn't know where to start. ImpactLink matched me with a local river cleanup project. It was life-changing!"</p>
+                            <div class="mt-6 flex gap-1 text-yellow-400"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="min-w-[320px] md:min-w-[450px] snap-center bg-white p-8 rounded-3xl shadow-lg border border-gray-100 relative transform hover:-translate-y-2 transition-transform duration-300">
+                            <div class="absolute -top-4 -right-4 w-20 h-20 bg-green-500 rounded-full opacity-10"></div>
+                            <div class="flex items-center space-x-4 mb-6">
+                                <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center text-green-600 font-bold text-2xl">G</div>
+                                <div>
+                                    <h4 class="font-bold text-xl text-gray-900">GreenFuture NGO</h4>
+                                    <p class="text-green-600 font-medium">Partner Org</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-lg italic leading-relaxed">"We struggle with digital marketing. Through ImpactLink, we found a student who redesigned our social media strategy completely for free. Incredible!"</p>
+                            <div class="mt-6 flex gap-1 text-yellow-400"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="min-w-[320px] md:min-w-[450px] snap-center bg-white p-8 rounded-3xl shadow-lg border border-gray-100 relative transform hover:-translate-y-2 transition-transform duration-300">
+                            <div class="absolute -top-4 -right-4 w-20 h-20 bg-blue-500 rounded-full opacity-10"></div>
+                            <div class="flex items-center space-x-4 mb-6">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" class="w-16 h-16 rounded-full object-cover border-2 border-blue-100" alt="User">
+                                <div>
+                                    <h4 class="font-bold text-xl text-gray-900">Michael Chen</h4>
+                                    <p class="text-blue-600 font-medium">Literacy App Dev</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-lg italic leading-relaxed">"ImpactLink helped me build my portfolio while doing good. I developed a website for a literacy charity. It's a win-win situation."</p>
+                            <div class="mt-6 flex gap-1 text-yellow-400"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        </div>
+
+                        <!-- Card 4 -->
+                        <div class="min-w-[320px] md:min-w-[450px] snap-center bg-white p-8 rounded-3xl shadow-lg border border-gray-100 relative transform hover:-translate-y-2 transition-transform duration-300">
+                            <div class="absolute -top-4 -right-4 w-20 h-20 bg-orange-500 rounded-full opacity-10"></div>
+                            <div class="flex items-center space-x-4 mb-6">
+                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop" class="w-16 h-16 rounded-full object-cover border-2 border-orange-100" alt="User">
+                                <div>
+                                    <h4 class="font-bold text-xl text-gray-900">Priya Patel</h4>
+                                    <p class="text-orange-600 font-medium">Food Drive Lead</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-lg italic leading-relaxed">"I organized a food drive for 500 families. The support from the ImpactLink community was overwhelming. Truly grateful!"</p>
+                            <div class="mt-6 flex gap-1 text-yellow-400"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        </div>
+                    </div>
+                    <p class="text-center text-gray-400 text-sm mt-2 md:hidden">Swipe to see more</p>
+                </div>
+
+                <div class="mt-16 text-center">
+                    <h3 class="text-2xl font-bold mb-8">Ready to write your own story?</h3>
+                    <div class="flex flex-col md:flex-row justify-center gap-4">
+                        <button onclick="navigateTo('student-signup')" class="glow-btn gradient-accent text-white px-8 py-3 rounded-full font-semibold shadow-lg">Join as Student</button>
+                        <button onclick="navigateTo('ngo-signup')" class="bg-white border border-gray-200 text-gray-700 px-8 py-3 rounded-full font-semibold hover:bg-gray-50 shadow-sm">Join as NGO</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ==================== RESOURCE OASIS VIEW ==================== -->
+    <div id="view-resources" class="view-section page-transition">
+        <section class="min-h-screen pt-32 pb-20 relative bg-teal-50">
+            <div class="blob blob-1" style="background: #99f6e4;"></div>
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <div class="inline-block px-4 py-2 bg-teal-100 rounded-full mb-4">
+                        <span class="text-teal-700 font-semibold">Resource Oasis</span>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4 text-gray-900">Tools for <span class="text-teal-600">Impact</span></h1>
+                    <p class="text-gray-600 text-lg max-w-2xl mx-auto">Explore guides, spotlight stories, and ready-to-use templates for smooth collaborations.</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Guide Card -->
+                    <div class="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-xl transition-all duration-300 border border-teal-100 group">
+                        <div class="h-48 bg-teal-600 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=500&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Guide">
+                            <div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-teal-800">GUIDE</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 text-gray-800">Student Success Kit</h3>
+                            <p class="text-gray-600 text-sm mb-4">A complete guide on how to make the most of your internship experience.</p>
+                            <button class="text-teal-600 font-bold flex items-center hover:space-x-2 transition-all"><span>Download PDF</span> <i class="fas fa-arrow-right ml-2"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Template Card -->
+                    <div class="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-xl transition-all duration-300 border border-teal-100 group">
+                        <div class="h-48 bg-blue-600 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=500&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Template">
+                            <div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-blue-800">TEMPLATE</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 text-gray-800">Project Timeline</h3>
+                            <p class="text-gray-600 text-sm mb-4">Ready-to-use Excel template for managing NGO projects effectively.</p>
+                            <button class="text-blue-600 font-bold flex items-center hover:space-x-2 transition-all"><span>Get Template</span> <i class="fas fa-download ml-2"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Spotlight Card -->
+                    <div class="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-xl transition-all duration-300 border border-teal-100 group">
+                        <div class="h-48 bg-orange-600 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=500&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Spotlight">
+                            <div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-orange-800">SPOTLIGHT</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 text-gray-800">Mentor of the Month</h3>
+                            <p class="text-gray-600 text-sm mb-4">Meet Dr. Amina, who has mentored over 50 students on ImpactLink.</p>
+                            <button class="text-orange-600 font-bold flex items-center hover:space-x-2 transition-all"><span>Read Story</span> <i class="fas fa-book-open ml-2"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upcoming Webinars -->
+                <div class="mt-20">
+                    <h2 class="text-3xl font-bold mb-8 text-center">Upcoming <span class="text-teal-600">Sessions</span></h2>
+                    <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+                        <div class="flex flex-col md:flex-row gap-8 items-center">
+                            <div class="bg-teal-100 rounded-2xl p-6 text-center min-w-[150px]">
+                                <div class="text-teal-800 font-bold text-3xl">25</div>
+                                <div class="text-teal-600 font-medium uppercase text-sm">October</div>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-xl font-bold mb-2">Kickstarting Your Social Impact Career</h4>
+                                <p class="text-gray-600 mb-4">Join us for a live webinar with industry experts discussing how to build a career in the non-profit sector.</p>
+                                <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                    <span><i class="far fa-clock mr-1"></i> 5:00 PM EST</span>
+                                    <span><i class="fas fa-video mr-1"></i> Zoom Live</span>
+                                </div>
+                            </div>
+                            <button class="glow-btn bg-teal-600 text-white px-6 py-3 rounded-full font-bold hover:bg-teal-700 transition-colors">Register Free</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ==================== STUDENT SIGN UP VIEW ==================== -->
+    <div id="view-student-signup" class="view-section page-transition">
+        <section class="min-h-screen pt-32 pb-20 relative">
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl mx-auto">
+                    <div class="text-center mb-12">
+                        <div class="inline-block px-4 py-2 bg-emerald-100 rounded-full mb-4">
+                            <span class="text-emerald-600 font-semibold">Student Registration</span>
+                        </div>
+                        <h1 class="text-4xl md:text-5xl font-bold mb-4">Start Your Journey of <span class="text-emerald-600">Impact</span></h1>
+                        <p class="text-gray-600 text-lg">Join thousands of students gaining real-world experience.</p>
+                    </div>
+
+                    <form class="form-card rounded-3xl p-8 md:p-12">
+                        <!-- Personal Info -->
+                        <h3 class="text-2xl font-bold mb-6 flex items-center text-gray-800">
+                            <div class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 mr-3 text-lg">1</div>
+                            Personal Information
+                        </h3>
+                        <div class="grid md:grid-cols-2 gap-6 mb-8">
+                            <input type="text" class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 input-field outline-none" placeholder="Full Name" required>
+                            <input type="email" class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 input-field outline-none" placeholder="Email Address" required>
+                            <input type="tel" class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 input-field outline-none" placeholder="Phone Number">
+                            <input type="text" class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 input-field outline-none" placeholder="University / School">
+                            <input type="text" class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 input-field outline-none" placeholder="Major / Field of Study">
+                            <select class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 input-field outline-none">
+                                <option value="" disabled selected>Current Year</option>
+                                <option>Freshman</option>
+                                <option>Sophomore</option>
+                                <option>Junior</option>
+                                <option>Senior</option>
+                                <option>Graduate</option>
+                            </select>
+                        </div>
+
+                        <!-- Availability & Links (New) -->
+                        <h3 class="text-2xl font-bold mb-6 flex items-center text-gray-800">
+                            <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 mr-3 text-lg">2</div>
+                            Availability & Profile
+                        </h3>
+                        <div class="grid md:grid-cols-2 gap-6 mb-8">
+                            <div>
+                                <label class="block text-sm font-semibold mb-2 text-gray-700">Hours per week</label>
+                                <select class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 input-field outline-none">
+                                    <option>1-5 Hours</option>
+                                    <option>5-10 Hours</option>
+                                    <option>10-20 Hours</option>
+                                    <option>20+ Hours</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-2 text-gray-700">Work Preference</label>
+                                <select class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 input-field outline-none">
+                                    <option>Remote Only</option>
+                                    <option>On-Site Only</option>
+                                    <option>Hybrid</option>
+                                    <option>Any</option>
+                                </select>
+                            </div>
+                            <input type="url" class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 input-field outline-none" placeholder="LinkedIn URL (Optional)">
+                            <input type="url" class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 input-field outline-none" placeholder="Portfolio / Website (Optional)">
+                        </div>
+
+                        <!-- Interests -->
+                        <h3 class="text-2xl font-bold mb-6 flex items-center text-gray-800">
+                            <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-3 text-lg">3</div>
+                            Interests
+                        </h3>
+                        <div class="mb-6">
+                            <label class="block text-sm font-semibold mb-3 text-gray-700">Select Causes</label>
+                            <div class="flex flex-wrap gap-3">
+                                <label class="cursor-pointer"><input type="checkbox" class="checkbox-wrapper hidden"><div class="px-4 py-2 rounded-full border bg-white hover:bg-gray-50 transition-all">🌱 Environment</div></label>
+                                <label class="cursor-pointer"><input type="checkbox" class="checkbox-wrapper hidden"><div class="px-4 py-2 rounded-full border bg-white hover:bg-gray-50 transition-all">📚 Education</div></label>
+                                <label class="cursor-pointer"><input type="checkbox" class="checkbox-wrapper hidden"><div class="px-4 py-2 rounded-full border bg-white hover:bg-gray-50 transition-all">🏥 Healthcare</div></label>
+                                <label class="cursor-pointer"><input type="checkbox" class="checkbox-wrapper hidden"><div class="px-4 py-2 rounded-full border bg-white hover:bg-gray-50 transition-all">💻 Tech for Good</div></label>
+                                <label class="cursor-pointer"><input type="checkbox" class="checkbox-wrapper hidden"><div class="px-4 py-2 rounded-full border bg-white hover:bg-gray-50 transition-all">⚖️ Human Rights</div></label>
+                                <label class="cursor-pointer"><input type="checkbox" class="checkbox-wrapper hidden"><div class="px-4 py-2 rounded-full border bg-white hover:bg-gray-50 transition-all">🐾 Animal Welfare</div></label>
+                            </div>
+                        </div>
+
+                        <div class="mb-6">
+                             <label class="block text-sm font-semibold mb-2 text-gray-700">Why do you want to join ImpactLink?</label>
+                            <textarea class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 input-field outline-none h-24 resize-none" placeholder="Tell us a bit about your motivation..."></textarea>
+                        </div>
+
+                        <!-- Resume -->
+                        <h3 class="text-2xl font-bold mb-6 flex items-center text-gray-800">
+                            <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 mr-3 text-lg">4</div>
+                            Upload Resume
+                        </h3>
+                        <div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-emerald-400 transition-colors cursor-pointer bg-gray-50 group mb-8">
+                            <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-3 group-hover:text-emerald-500 transition-colors"></i>
+                            <p class="text-gray-500">Click to upload Resume/CV</p>
+                            <input type="file" class="hidden">
+                        </div>
+
+                        <button type="button" onclick="alert('Thank you! Student application submitted.'); navigateTo('home');" class="w-full gradient-green text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl hover:opacity-90 transition-all transform hover:-translate-y-1">
+                            Create Student Profile
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ==================== NGO SIGN UP VIEW ==================== -->
+    <div id="view-ngo-signup" class="view-section page-transition">
+        <section class="min-h-screen pt-32 pb-20 relative">
+            <div class="blob blob-1" style="background: #fdba74;"></div> <!-- Orange blob -->
+            <div class="blob blob-2" style="background: #fbcfe8;"></div> <!-- Pink blob -->
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl mx-auto">
+                    <div class="text-center mb-12">
+                        <div class="inline-block px-4 py-2 bg-orange-100 rounded-full mb-4">
+                            <span class="text-orange-600 font-semibold">NGO Partnership</span>
+                        </div>
+                        <h1 class="text-4xl md:text-5xl font-bold mb-4">Find Passionate <span class="text-orange-600">Contributors</span></h1>
+                        <p class="text-gray-600 text-lg">Connect with motivated students ready to help your mission.</p>
+                    </div>
+
+                    <form class="form-card rounded-3xl p-8 md:p-12">
+                        <!-- Org Info -->
+                        <h3 class="text-2xl font-bold mb-6 flex items-center text-gray-800">
+                            <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 mr-3 text-lg">1</div>
+                            Organization Details
+                        </h3>
+                        <div class="grid md:grid-cols-2 gap-6 mb-8">
+                            <input type="text" class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 input-field outline-none" placeholder="Organization Name" required>
+                            <input type="text" class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 input-field outline-none" placeholder="Registration Number (if applicable)">
+                            <input type="text" class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 input-field outline-none" placeholder="Website URL">
+                            <input type="email" class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 input-field outline-none" placeholder="Official Email">
+                            <input type="text" class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 input-field outline-none" placeholder="Headquarters Address">
+                            <select class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 input-field outline-none">
+                                <option value="" disabled selected>Organization Size</option>
+                                <option>1-10 Employees</option>
+                                <option>11-50 Employees</option>
+                                <option>50+ Employees</option>
+                            </select>
+                        </div>
+
+                         <!-- Contact Person -->
+                        <h3 class="text-2xl font-bold mb-6 flex items-center text-gray-800">
+                            <div class="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center text-pink-600 mr-3 text-lg">2</div>
+                            Contact Person
+                        </h3>
+                         <div class="grid md:grid-cols-2 gap-6 mb-8">
+                            <input type="text" class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 input-field outline-none" placeholder="Full Name" required>
+                            <input type="text" class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 input-field outline-none" placeholder="Role / Title">
+                            <input type="tel" class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 input-field outline-none" placeholder="Direct Phone Number">
+                        </div>
+
+
+                        <!-- Needs -->
+                        <h3 class="text-2xl font-bold mb-6 flex items-center text-gray-800">
+                            <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mr-3 text-lg">3</div>
+                            Student Help Needed
+                        </h3>
+                        <div class="mb-6">
+                            <div class="grid md:grid-cols-2 gap-3">
+                                <label class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 bg-white">
+                                    <input type="checkbox" class="w-5 h-5 accent-orange-500"> <span>Event Management</span>
+                                </label>
+                                <label class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 bg-white">
+                                    <input type="checkbox" class="w-5 h-5 accent-orange-500"> <span>Social Media & Marketing</span>
+                                </label>
+                                <label class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 bg-white">
+                                    <input type="checkbox" class="w-5 h-5 accent-orange-500"> <span>Web / Graphic Design</span>
+                                </label>
+                                <label class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 bg-white">
+                                    <input type="checkbox" class="w-5 h-5 accent-orange-500"> <span>Teaching / Tutoring</span>
+                                </label>
+                                <label class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 bg-white">
+                                    <input type="checkbox" class="w-5 h-5 accent-orange-500"> <span>Fundraising & Research</span>
+                                </label>
+                                <label class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 bg-white">
+                                    <input type="checkbox" class="w-5 h-5 accent-orange-500"> <span>General Volunteering</span>
+                                </label>
+                            </div>
+                        </div>
+
+                         <div class="mb-6">
+                             <label class="block text-sm font-semibold mb-2 text-gray-700">Expected Project Duration</label>
+                            <select class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 input-field outline-none">
+                                <option>One-time Event</option>
+                                <option>1-3 Months</option>
+                                <option>3-6 Months</option>
+                                <option>Ongoing</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-8">
+                            <label class="block text-sm font-semibold mb-2 text-gray-700">Mission Statement</label>
+                            <textarea class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 input-field outline-none h-32 resize-none" placeholder="Tell us about your organization's mission..."></textarea>
+                        </div>
+
+                        <button type="button" onclick="alert('Thank you! NGO application submitted.'); navigateTo('home');" class="w-full gradient-accent text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl hover:opacity-90 transition-all transform hover:-translate-y-1">
+                            Register Organization
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ==================== FAQ VIEW ==================== -->
+    <div id="view-faq" class="view-section page-transition">
+        <section class="min-h-screen pt-32 pb-20 relative">
+            <div class="blob blob-1" style="background: #bae6fd;"></div> <!-- Blue blob -->
+            <div class="blob blob-2" style="background: #ddd6fe;"></div> <!-- Purple blob -->
+            <div class="container mx-auto px-6">
+                <div class="max-w-3xl mx-auto">
+                    <div class="text-center mb-16">
+                        <div class="inline-block px-4 py-2 bg-blue-100 rounded-full mb-4">
+                            <span class="text-blue-600 font-semibold">Help Center</span>
+                        </div>
+                        <h1 class="text-4xl md:text-5xl font-bold mb-4">Frequently Asked <span class="text-blue-600">Questions</span></h1>
+                        <p class="text-gray-600 text-lg">Find answers to common questions about ImpactLink.</p>
+                    </div>
+
+                    <div class="space-y-6">
+                        <!-- FAQ Item 1 -->
+                        <div class="accordion-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                            <button class="accordion-btn w-full p-6 text-left flex justify-between items-center hover:bg-gray-50 transition-colors">
+                                <span class="font-semibold text-lg">Is ImpactLink really free?</span>
+                                <i class="fas fa-plus text-blue-500 transition-transform"></i>
+                            </button>
+                            <div class="accordion-content px-6 text-gray-600">
+                                <p class="pb-6">Yes! ImpactLink is completely free for both students and NGOs. Our mission is to create a zero-cost ecosystem where learning meets impact.</p>
+                            </div>
+                        </div>
+                        <!-- FAQ Item 2 -->
+                        <div class="accordion-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                            <button class="accordion-btn w-full p-6 text-left flex justify-between items-center hover:bg-gray-50 transition-colors">
+                                <span class="font-semibold text-lg">How are NGOs verified?</span>
+                                <i class="fas fa-plus text-blue-500 transition-transform"></i>
+                            </button>
+                            <div class="accordion-content px-6 text-gray-600">
+                                <p class="pb-6">We have a thorough verification process checking registration documents and references to ensure all opportunities are legitimate and safe.</p>
+                            </div>
+                        </div>
+                        <!-- FAQ Item 3 -->
+                        <div class="accordion-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                            <button class="accordion-btn w-full p-6 text-left flex justify-between items-center hover:bg-gray-50 transition-colors">
+                                <span class="font-semibold text-lg">Can I volunteer remotely?</span>
+                                <i class="fas fa-plus text-blue-500 transition-transform"></i>
+                            </button>
+                            <div class="accordion-content px-6 text-gray-600">
+                                <p class="pb-6">Absolutely! Many opportunities are remote-friendly. You can filter by location preference including fully remote or hybrid.</p>
+                            </div>
+                        </div>
+                         <!-- FAQ Item 4 -->
+                         <div class="accordion-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                            <button class="accordion-btn w-full p-6 text-left flex justify-between items-center hover:bg-gray-50 transition-colors">
+                                <span class="font-semibold text-lg">Do I get a certificate?</span>
+                                <i class="fas fa-plus text-blue-500 transition-transform"></i>
+                            </button>
+                            <div class="accordion-content px-6 text-gray-600">
+                                <p class="pb-6">Yes, upon successful completion of your project, the NGO will issue a digital certificate of completion verified by ImpactLink.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-12 text-center">
+                        <button onclick="navigateTo('home')" class="text-blue-600 font-semibold hover:underline">Back to Home</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <a href="#" onclick="navigateTo('home')" class="flex items-center space-x-2 mb-6">
+                        <div class="w-10 h-10 gradient-green rounded-lg flex items-center justify-center">
+                            <i class="fas fa-leaf text-white text-xl"></i>
+                        </div>
+                        <span class="text-2xl font-bold">ImpactLink</span>
+                    </a>
+                    <p class="text-gray-400 mb-6">
+                        Where Ambition Meets Impact.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Quick Links</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><button onclick="navigateTo('home', 'about')" class="hover:text-orange-400 transition-colors">About Us</button></li>
+                        <li><button onclick="navigateTo('home', 'features')" class="hover:text-orange-400 transition-colors">Features</button></li>
+                        <li><button onclick="navigateTo('stories')" class="hover:text-orange-400 transition-colors">Stories</button></li>
+                        <li><button onclick="navigateTo('faq')" class="hover:text-orange-400 transition-colors">FAQ</button></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Get Involved</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><button onclick="navigateTo('student-signup')" class="hover:text-orange-400 transition-colors">Student Sign Up</button></li>
+                        <li><button onclick="navigateTo('ngo-signup')" class="hover:text-orange-400 transition-colors">NGO Registration</button></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Newsletter</h4>
+                    <p class="text-gray-400 text-sm mb-4">Get impact stories.</p>
+                    <div class="flex max-w-md">
+                        <input type="email" placeholder="Email" class="flex-1 bg-gray-800 border-none rounded-l-lg px-4 py-3 text-white outline-none w-full">
+                        <button class="bg-green-600 px-4 py-3 rounded-r-lg font-semibold hover:bg-green-700 transition-colors">Go</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
+                <p>&copy; 2024 ImpactLink. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // === NAVIGATION ROUTER ===
+        function navigateTo(viewId, sectionId = null) {
+            // Hide all views
+            document.querySelectorAll('.view-section').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            // Show target view
+            const targetView = document.getElementById('view-' + viewId);
+            if (targetView) {
+                targetView.classList.add('active');
+                // Reset scroll to top instantly
+                window.scrollTo(0, 0);
+                
+                // Close mobile menu if open
+                document.getElementById('mobileMenu').classList.remove('translate-x-0');
+                document.getElementById('mobileMenu').classList.add('translate-x-full');
+            }
+
+            // If specific section requested (e.g. #about)
+            if (sectionId) {
+                setTimeout(() => {
+                    const section = document.getElementById(sectionId);
+                    if (section) {
+                        section.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }, 100);
+            }
+        }
+
+        // === FAQ ACCORDION ===
+        document.querySelectorAll('.accordion-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const content = btn.nextElementSibling;
+                const icon = btn.querySelector('i');
+                
+                // Close others
+                document.querySelectorAll('.accordion-btn').forEach(otherBtn => {
+                    if (otherBtn !== btn) {
+                        otherBtn.nextElementSibling.classList.remove('active');
+                        otherBtn.querySelector('i').classList.remove('fa-minus');
+                        otherBtn.querySelector('i').classList.add('fa-plus');
+                    }
+                });
+
+                // Toggle current
+                content.classList.toggle('active');
+                if (content.classList.contains('active')) {
+                    icon.classList.remove('fa-plus');
+                    icon.classList.add('fa-minus');
+                } else {
+                    icon.classList.remove('fa-minus');
+                    icon.classList.add('fa-plus');
+                }
+            });
+        });
+
+        // === SCROLL EFFECTS ===
+        window.addEventListener('scroll', () => {
+            // Progress Bar
+            const scrollTop = document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const progress = (scrollTop / scrollHeight) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            // Navbar
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-md', 'bg-white/95');
+                navbar.classList.remove('bg-white/80');
+            } else {
+                navbar.classList.remove('shadow-md', 'bg-white/95');
+                navbar.classList.add('bg-white/80');
+            }
+        });
+
+        // === MOBILE MENU ===
+        const menuBtn = document.getElementById('menuBtn');
+        const closeMenu = document.getElementById('closeMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('translate-x-full');
+            mobileMenu.classList.add('translate-x-0');
+        });
+
+        closeMenu.addEventListener('click', () => {
+            mobileMenu.classList.remove('translate-x-0');
+            mobileMenu.classList.add('translate-x-full');
+        });
+
+        // === ANIMATIONS ===
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Counter Animation
+                    if (entry.target.classList.contains('counter')) {
+                        const target = +entry.target.getAttribute('data-target');
+                        const duration = 2000; 
+                        const start = 0;
+                        const startTime = performance.now();
+
+                        const updateCounter = (currentTime) => {
+                            const elapsed = currentTime - startTime;
+                            const progress = Math.min(elapsed / duration, 1);
+                            entry.target.innerText = Math.floor(progress * target).toLocaleString() + '+';
+                            if (progress < 1) requestAnimationFrame(updateCounter);
+                        };
+                        requestAnimationFrame(updateCounter);
+                        observer.unobserve(entry.target);
+                    }
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in, .counter').forEach(el => observer.observe(el));
+
+        // === STORY SLIDER ===
+        function slideStories(direction) {
+            const slider = document.getElementById('storiesSlider');
+            const cardWidth = slider.firstElementChild.offsetWidth + 32; // width + gap
+            
+            if(direction === 'left') {
+                slider.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+            } else {
+                slider.scrollBy({ left: cardWidth, behavior: 'smooth' });
+            }
+        }
+
+        // === IMPACT CALCULATOR ===
+        function updateImpactCalc(val) {
+            document.getElementById('impactHours').innerText = val;
+            // Dummy logic: 1 hour = 5 lives, $30 value
+            document.getElementById('impactLives').innerText = (val * 5).toLocaleString();
+            document.getElementById('impactValue').innerText = '$' + (val * 30).toLocaleString();
+        }
+    </script>
+</body>
+</html>
