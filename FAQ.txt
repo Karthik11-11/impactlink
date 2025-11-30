@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - ImpactLink</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        /* Nature Oriented Theme */
+        .gradient-text {
+            background: linear-gradient(135deg, #0ea5e9 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-primary {
+            background: linear-gradient(135deg, #0ea5e9 0%, #8b5cf6 100%);
+        }
+
+        /* Animated Background Blobs */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.4;
+            animation: float 8s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        .blob-1 {
+            width: 400px;
+            height: 400px;
+            background: #bae6fd; /* Blue */
+            top: -100px;
+            right: -100px;
+            animation-delay: 0s;
+        }
+
+        .blob-2 {
+            width: 300px;
+            height: 300px;
+            background: #ddd6fe; /* Purple */
+            bottom: -50px;
+            left: -50px;
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        /* Accordion */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+            opacity: 0;
+        }
+
+        .accordion-content.active {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        .accordion-item {
+            transition: all 0.3s ease;
+        }
+        
+        .accordion-item:hover {
+            transform: translateX(5px);
+        }
+    </style>
+</head>
+<body class="bg-blue-50 text-gray-800 min-h-screen relative overflow-x-hidden">
+    <!-- Background Blobs -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center space-x-2">
+                <div class="w-10 h-10 gradient-primary rounded-lg flex items-center justify-center">
+                    <i class="fas fa-link text-white text-xl"></i>
+                </div>
+                <span class="text-2xl font-bold gradient-text">ImpactLink</span>
+            </a>
+            <a href="index.html" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">
+                <i class="fas fa-arrow-left mr-2"></i> Back to Home
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-6 pt-32 pb-20">
+        <div class="max-w-3xl mx-auto">
+            <div class="text-center mb-16">
+                <div class="inline-block px-4 py-2 bg-blue-100 rounded-full mb-4">
+                    <span class="text-blue-600 font-semibold">Help Center</span>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Frequently Asked <span class="text-blue-600">Questions</span></h1>
+                <p class="text-gray-600 text-lg">Find answers to common questions about how ImpactLink works.</p>
+            </div>
+
+            <div class="space-y-6">
+                <!-- General Questions -->
+                <h3 class="text-xl font-bold text-gray-800 mt-8 mb-4 border-b pb-2">General Questions</h3>
+                
+                <div class="accordion-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button class="accordion-btn w-full p-6 text-left flex justify-between items-center hover:bg-gray-50 transition-colors">
+                        <span class="font-semibold text-lg">Is ImpactLink really free?</span>
+                        <i class="fas fa-plus text-blue-500 transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-6 text-gray-600">
+                        <p class="pb-6">Yes! ImpactLink is completely free for both students and NGOs. We believe in creating a seamless, zero-cost ecosystem where learning meets impact. Our mission is to connect people, not make profits.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button class="accordion-btn w-full p-6 text-left flex justify-between items-center hover:bg-gray-50 transition-colors">
+                        <span class="font-semibold text-lg">How are NGOs verified?</span>
+                        <i class="fas fa-plus text-blue-500 transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-6 text-gray-600">
+                        <p class="pb-6">We have a thorough verification process that includes checking registration documents, contacting references, and reviewing the organization's track record. This ensures all opportunities on our platform are legitimate and safe.</p>
+                    </div>
+                </div>
+
+                <!-- For Students -->
+                <h3 class="text-xl font-bold text-gray-800 mt-8 mb-4 border-b pb-2">For Students</h3>
+
+                <div class="accordion-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button class="accordion-btn w-full p-6 text-left flex justify-between items-center hover:bg-gray-50 transition-colors">
+                        <span class="font-semibold text-lg">What types of opportunities are available?</span>
+                        <i class="fas fa-plus text-blue-500 transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-6 text-gray-600">
+                        <p class="pb-6">We offer a wide range including internships, volunteer roles, and social impact projects. These span various fields like education, healthcare, environment, technology, digital marketing, research, event management, and more.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button class="accordion-btn w-full p-6 text-left flex justify-between items-center hover:bg-gray-50 transition-colors">
+                        <span class="font-semibold text-lg">Can I volunteer remotely?</span>
+                        <i class="fas fa-plus text-blue-500 transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-6 text-gray-600">
+                        <p class="pb-6">Absolutely! Many of our opportunities are remote-friendly. You can filter opportunities by location preference, including fully remote, hybrid, or on-site positions based on your availability.</p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button class="accordion-btn w-full p-6 text-left flex justify-between items-center hover:bg-gray-50 transition-colors">
+                        <span class="font-semibold text-lg">Do I get a certificate?</span>
+                        <i class="fas fa-plus text-blue-500 transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-6 text-gray-600">
+                        <p class="pb-6">Yes, upon successful completion of your project or internship, the NGO will issue a digital certificate of completion verified by ImpactLink.</p>
+                    </div>
+                </div>
+
+                <!-- For NGOs -->
+                <h3 class="text-xl font-bold text-gray-800 mt-8 mb-4 border-b pb-2">For NGOs</h3>
+
+                <div class="accordion-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button class="accordion-btn w-full p-6 text-left flex justify-between items-center hover:bg-gray-50 transition-colors">
+                        <span class="font-semibold text-lg">How many students can I recruit?</span>
+                        <i class="fas fa-plus text-blue-500 transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-6 text-gray-600">
+                        <p class="pb-6">There is no strict limit on recruitment. However, we encourage organizations to only recruit as many students as they can effectively manage and mentor to ensure a quality experience for everyone.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-16 text-center p-8 bg-white rounded-3xl shadow-lg border border-gray-100">
+                <h3 class="text-2xl font-bold mb-4">Still have questions?</h3>
+                <p class="text-gray-600 mb-6">Can't find the answer you're looking for? Please chat to our friendly team.</p>
+                <a href="index.html#contact" class="inline-block bg-blue-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-blue-700 transition-colors">
+                    Contact Support
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Simple -->
+    <footer class="bg-white py-8 border-t border-gray-100">
+        <div class="container mx-auto px-6 text-center text-gray-500">
+            <p>&copy; 2024 ImpactLink. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Accordion Logic
+        const accordionBtns = document.querySelectorAll('.accordion-btn');
+        
+        accordionBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const content = btn.nextElementSibling;
+                const icon = btn.querySelector('i');
+                
+                // Close others
+                accordionBtns.forEach(otherBtn => {
+                    if (otherBtn !== btn) {
+                        otherBtn.nextElementSibling.classList.remove('active');
+                        otherBtn.querySelector('i').classList.remove('fa-minus');
+                        otherBtn.querySelector('i').classList.add('fa-plus');
+                    }
+                });
+
+                // Toggle current
+                content.classList.toggle('active');
+                if (content.classList.contains('active')) {
+                    icon.classList.remove('fa-plus');
+                    icon.classList.add('fa-minus');
+                } else {
+                    icon.classList.remove('fa-minus');
+                    icon.classList.add('fa-plus');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
